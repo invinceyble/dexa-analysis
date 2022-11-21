@@ -33,8 +33,8 @@ except AssertionError as e:
     st.stop()
 
 # Clean data
-df[Column.SCAN_DATE] = pd.to_datetime(df[Column.SCAN_DATE]).dt.floor("D")
-df = df.set_index(Column.SCAN_DATE)
+df[Column.SCAN_DATE.value] = pd.to_datetime(df[Column.SCAN_DATE.value]).dt.floor("D")
+df = df.set_index(Column.SCAN_DATE.value)
 if len(df.index) < 2:
     st.error("Not enough scans for a report. ", icon="🚨")
     st.stop()
@@ -61,8 +61,8 @@ if st.checkbox("Show raw data"):
 
 # TOP LINE METRICS
 # % Body Fat Metric
-current_fat_perc = df.loc[latest_date][Column.TOTAL_FAT_PERC]
-prev_fat_perc = df.loc[prev_date][Column.TOTAL_FAT_PERC]
+current_fat_perc = df.loc[latest_date][Column.TOTAL_FAT_PERC.value]
+prev_fat_perc = df.loc[prev_date][Column.TOTAL_FAT_PERC.value]
 delta_fat_perc = current_fat_perc - prev_fat_perc
 st.metric(
     "Current % Body Fat",
@@ -75,8 +75,8 @@ st.metric(
 st.subheader("Total % Body Fat")
 fig = px.line(
     df,
-    y=Column.TOTAL_FAT_PERC,
-    labels={Column.TOTAL_FAT_PERC: "% Fat", Column.SCAN_DATE: "Scan Date"},
+    y=Column.TOTAL_FAT_PERC.value,
+    labels={Column.TOTAL_FAT_PERC.value: "% Fat", Column.SCAN_DATE.value: "Scan Date"},
 )
 fig.update_yaxes(rangemode="tozero")
 fig.update_xaxes(range=[min_date, max_date])

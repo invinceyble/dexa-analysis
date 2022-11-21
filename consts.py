@@ -3,7 +3,7 @@ from enum import Enum
 DATE_STRING_FORMAT = "%Y-%m-%d"
 
 
-class Column:
+class Column(Enum):
     """Data column names."""
 
     SCAN_DATE = "scan_date"

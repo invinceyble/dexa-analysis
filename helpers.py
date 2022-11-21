@@ -12,9 +12,8 @@ def is_local():
 
 
 def validate_uploaded_file(df: pd.DataFrame) -> None:
-    for key, var in vars(Column).items():
-        if key.startswith("__"):
-            continue
+    column_names = [c.value for c in Column]
+    for var in column_names:
         assert var in set(df.columns), var
 
 
