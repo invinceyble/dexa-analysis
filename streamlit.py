@@ -73,16 +73,52 @@ st.metric(
 
 # Charts
 st.subheader("Total % Body Fat")
-fig = px.line(
+fig = px.area(
     df,
     y=Column.TOTAL_FAT_PERC.value,
+    markers=True,
     labels={Column.TOTAL_FAT_PERC.value: "% Fat", Column.SCAN_DATE.value: "Scan Date"},
 )
 fig.update_yaxes(rangemode="tozero")
 fig.update_xaxes(range=[min_date, max_date])
 st.plotly_chart(fig)
 
+st.subheader("Total Lean Mass")
+fig = px.area(
+    df,
+    y=Column.TOTAL_LEAN.value,
+    markers=True,
+    labels={
+        Column.TOTAL_LEAN.value: "Lean Mass (g)",
+        Column.SCAN_DATE.value: "Scan Date",
+    },
+)
+fig.update_xaxes(range=[min_date, max_date])
+st.plotly_chart(fig)
+
+st.subheader("Total Fat Mass")
+fig = px.area(
+    df,
+    y=Column.TOTAL_FAT.value,
+    markers=True,
+    labels={Column.TOTAL_FAT.value: "Fat (g)", Column.SCAN_DATE.value: "Scan Date"},
+)
+fig.update_xaxes(range=[min_date, max_date])
+st.plotly_chart(fig)
+
 # Waterfall Chart
 st.subheader("Body Comp Change over Time")
 fig = plot_body_composition_chart(df)
+st.plotly_chart(fig, use_container_width=True)
+
+# Left vs Right
+st.subheader("Left Arm vs Right Arm Lean mass")
+fig = px.line(
+    df,
+    y=[Column.LEFT_ARM_FAT.value, Column.RIGHT_ARM_FAT.value],
+    markers=True,
+    labels={Column.SCAN_DATE.value: "Scan Date"},
+)
+fig.update_yaxes(rangemode="tozero")
+fig.update_xaxes(range=[min_date, max_date])
 st.plotly_chart(fig)
